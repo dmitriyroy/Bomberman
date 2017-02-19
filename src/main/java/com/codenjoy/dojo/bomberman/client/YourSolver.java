@@ -29,6 +29,7 @@ import com.codenjoy.dojo.services.Dice;
 import com.codenjoy.dojo.services.Point;
 import com.codenjoy.dojo.services.RandomDice;
 
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -57,6 +58,10 @@ public class YourSolver implements Solver<Board> {
         Point myPosition = board.getBomberman();
         Direction lastDirection = Direction.UP;
         Direction newDirection = Direction.UP;
+        Collection<Point> destroyWals = board.getDestroyWalls();
+        Collection<Point> bombs = board.getBombs();
+        Collection<Point> bombermans = board.getOtherBombermans();
+        Collection<Point> meatChppers = board.getMeatChoppers();
 
         int dx = myPosition.getX() - myPosition.getX();
         //   X X X X X X X
@@ -71,7 +76,7 @@ public class YourSolver implements Solver<Board> {
         // если Х нечетная, то я могу двигаться только по вертикали
         if(myPosition.getX() % 2 == 1){
             if(lastDirection.toString().equals("UP")){
-                if(myPosition.getY() > 1) {
+                if(myPosition.getY() > 1 && isPointEmpty(Point)) {
                     newDirection = Direction.UP;
                 }else{
                     newDirection = Direction.RIGHT;
