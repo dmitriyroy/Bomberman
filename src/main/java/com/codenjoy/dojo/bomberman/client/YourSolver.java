@@ -26,6 +26,7 @@ import com.codenjoy.dojo.client.Direction;
 import com.codenjoy.dojo.client.Solver;
 import com.codenjoy.dojo.client.WebSocketRunner;
 import com.codenjoy.dojo.services.Dice;
+import com.codenjoy.dojo.services.Point;
 import com.codenjoy.dojo.services.RandomDice;
 
 import java.util.Random;
@@ -48,9 +49,55 @@ public class YourSolver implements Solver<Board> {
     public String get(Board board) {
         this.board = board;
         if (board.isGameOver()) return "";
+//        if(true){
+//            return Direction.ACT.toString();
+//        }
+
+//        board.
+        Point myPosition = board.getBomberman();
+        Direction lastDirection = Direction.UP;
+        Direction newDirection = Direction.UP;
+
+        int dx = myPosition.getX() - myPosition.getX();
+        //   X X X X X X X
+        // Y 0 1 2 3 4 5 6
+        // Y 1 8 8
+        // Y 2 8 +   +   +
+        // Y 3     8 8
+        // Y 4   + 8 +   +
+        // Y 5
+
+
+        // если Х нечетная, то я могу двигаться только по вертикали
+        if(myPosition.getX() % 2 == 1){
+            if(lastDirection.toString().equals("UP")){
+                if(myPosition.getY() > 1) {
+                    newDirection = Direction.UP;
+                }else{
+                    newDirection = Direction.RIGHT;
+                }
+            }else if(lastDirection.toString().equals("DOWN")){
+
+            }else if(lastDirection.toString().equals("LEFT")){
+
+            }else if(lastDirection.toString().equals("RIGHT")){
+
+            }else{
+                // TODO надо подумать. Здесь мы положили бомбу .ACT
+            }
+
+        // если Х четная, то я могу двигаться только по горизонтали
+        }else{
+            newDirection = Direction.ACT;
+
+        }
+
+        lastDirection = newDirection;
+        return newDirection.toString();
+
 
 //        return Direction.ACT.toString();
-        int changeAct = new Random().nextInt();
+//        int changeAct = new Random().nextInt();
 //        if(changeAct % 5 == 0){
 //            return Direction.ACT.toString();
 //        }else if(changeAct % 4 == 0){
@@ -63,7 +110,7 @@ public class YourSolver implements Solver<Board> {
 //        if(changeAct % 2 == 0){
 //            return Direction.DOWN.toString();
 //        }
-        return Direction.random().toString();
+//        return Direction.random().toString();
 //        return Direction.random(dice).toString();
 
 //        fdl;fjpdjfwejf
