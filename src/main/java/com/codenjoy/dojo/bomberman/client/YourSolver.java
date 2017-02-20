@@ -32,6 +32,8 @@ import com.codenjoy.dojo.services.RandomDice;
 import java.util.Collection;
 import java.util.Random;
 
+import static java.lang.Math.sqrt;
+
 /**
  * User: your name
  */
@@ -41,6 +43,8 @@ public class YourSolver implements Solver<Board> {
 
     private Dice dice;
     private Board board;
+    Direction lastDirection = Direction.UP;
+    Direction newDirection = Direction.UP;
 
     public YourSolver(Dice dice) {
         this.dice = dice;
@@ -50,14 +54,8 @@ public class YourSolver implements Solver<Board> {
     public String get(Board board) {
         this.board = board;
         if (board.isGameOver()) return "";
-//        if(true){
-//            return Direction.ACT.toString();
-//        }
 
-//        board.
         Point myPosition = board.getBomberman();
-        Direction lastDirection = Direction.UP;
-        Direction newDirection = Direction.UP;
         Collection<Point> destroyWals = board.getDestroyWalls();
         Collection<Point> bombs = board.getBombs();
         Collection<Point> bombermans = board.getOtherBombermans();
@@ -72,53 +70,67 @@ public class YourSolver implements Solver<Board> {
         // Y 4   + 8 +   +
         // Y 5
 
-
+//        String direct = "";
+//        direct = Direction.ACT.UP.toString();
+//        direct = Direction.ACT.toString();
+//        direct = Direction.ACT(2, 0, -1);
         // если Х нечетная, то я могу двигаться только по вертикали
         if(myPosition.getX() % 2 == 1){
             if(lastDirection.toString().equals("UP")){
-                if(isPointEmpty(myPosition)) {
+                if(isPointEmpty(myPosition,"UP", board)) {
                     newDirection = Direction.UP;
+                    lastDirection = newDirection;
                 }else{
-                    newDirection = Direction.RIGHT;
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
                 }
             }else if(lastDirection.toString().equals("DOWN")){
-
-            }else if(lastDirection.toString().equals("LEFT")){
-
-            }else if(lastDirection.toString().equals("RIGHT")){
+                if(isPointEmpty(myPosition,"DOWN", board)) {
+                    newDirection = Direction.DOWN;
+                    lastDirection = newDirection;
+                }else {
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+                }
 
             }else{
-                // TODO надо подумать. Здесь мы положили бомбу .ACT
+                newDirection = Direction.UP;
+                lastDirection = newDirection;
             }
+//            else if(lastDirection.toString().equals("LEFT")){
+//
+//            }else if(lastDirection.toString().equals("RIGHT")){
+//
+//            }else{
+//                // TODO надо подумать. Здесь мы положили бомбу .ACT
+//            }
 
         // если Х четная, то я могу двигаться только по горизонтали
         }else{
-            newDirection = Direction.ACT;
+            if(lastDirection.toString().equals("LEFT")){
+                if(isPointEmpty(myPosition,"LEFT", board)) {
+                    newDirection = Direction.LEFT;
+                    lastDirection = newDirection;
+                }else{
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+                }
+            }else if(lastDirection.toString().equals("RIGHT")){
+                if(isPointEmpty(myPosition,"RIGHT", board)) {
+                    newDirection = Direction.RIGHT;
+                    lastDirection = newDirection;
+                }else{
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+                }
 
+            }else{
+                newDirection = Direction.RIGHT;
+                lastDirection = newDirection;
+            }
         }
 
-        lastDirection = newDirection;
         return newDirection.toString();
-
-
-//        return Direction.ACT.toString();
-//        int changeAct = new Random().nextInt();
-//        if(changeAct % 5 == 0){
-//            return Direction.ACT.toString();
-//        }else if(changeAct % 4 == 0){
-//            return Direction.LEFT.toString();
-//        }else if(changeAct % 3 == 0){
-//            return Direction.UP.toString();
-//        }else if(changeAct % 2 == 0){
-//            return Direction.DOWN.toString();
-//        }
-//        if(changeAct % 2 == 0){
-//            return Direction.DOWN.toString();
-//        }
-//        return Direction.random().toString();
-//        return Direction.random(dice).toString();
-
-//        fdl;fjpdjfwejf
     }
 
     public static void main(String[] args) {
@@ -135,15 +147,75 @@ public class YourSolver implements Solver<Board> {
         }
     }
 
-    public boolean isPointEmpty(Point point){
-//        myPosition.getY() > 1
+    public boolean isPointEmpty(Point point,String direction,Board board){
+
+        Collection<Point> destroyWals = board.getDestroyWalls();
+        Collection<Point> bombs = board.getBombs();
+        Collection<Point> bombermans = board.getOtherBombermans();
+        Collection<Point> meatChoppers = board.getMeatChoppers();
+        boolean isPointDanger = false;
+        switch(direction){
+            case "UP":
+                point.move(point.getX(),point.getY()-1);
+                break;
+            case "DOWN":
+                point.move(point.getX(),point.getY()+1);
+                break;
+            case "LEFT":
+                point.move(point.getX()-1,point.getY());
+                break;
+            case "RIGHT":
+                point.move(point.getX()+1,point.getY());
+                break;
+        }
         if(point.getX() <= 0
-            || point.getX() >= board.size()
+//            || point.getX() >= sqrt(board.size())
+            || point.getX() >= 32 //board.size()
+            || point.getY() <= 0
+//            || point.getY() >= sqrt(board.size())
+            || point.getY() >= 32 //board.size()
+                // TODO - проверить, возможно, при выполнении этого условия будет ставить бомбы перед перегородками
             || (point.getX() % 2 == 0 && point.getY() % 2 == 0)){
-            return false;
+            isPointDanger = true;
+        }
+        for (Point destroyWal:destroyWals) {
+            if(isPointDanger){
+                break;
+            }
+            if(destroyWal.getX() == point.getX() && destroyWal.getY() == point.getY()){
+                isPointDanger = true;
+                break;
+            }
+        }
+        for (Point bomb:bombs) {
+            if(isPointDanger){
+                break;
+            }
+            if(bomb.getX() == point.getX() && bomb.getY() == point.getY()){
+                isPointDanger = true;
+                break;
+            }
+        }
+        for (Point bomberman:bombermans) {
+            if(isPointDanger){
+                break;
+            }
+            if(bomberman.getX() == point.getX() && bomberman.getY() == point.getY()){
+                isPointDanger = true;
+                break;
+            }
+        }
+        for (Point meatChopper:meatChoppers) {
+            if(isPointDanger){
+                break;
+            }
+            if(meatChopper.getX() == point.getX() && meatChopper.getY() == point.getY()){
+                isPointDanger = true;
+                break;
+            }
         }
 
-        return true;
+        return !isPointDanger;
     }
 
 }
