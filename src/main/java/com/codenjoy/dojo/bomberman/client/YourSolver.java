@@ -76,7 +76,7 @@ public class YourSolver implements Solver<Board> {
         // если Х нечетная, то я могу двигаться только по вертикали
         if(myPosition.getX() % 2 == 1){
             if(lastDirection.toString().equals("UP")){
-                if(myPosition.getY() > 1 && isPointEmpty(Point)) {
+                if(isPointEmpty(myPosition)) {
                     newDirection = Direction.UP;
                 }else{
                     newDirection = Direction.RIGHT;
@@ -133,6 +133,17 @@ public class YourSolver implements Solver<Board> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isPointEmpty(Point point){
+//        myPosition.getY() > 1
+        if(point.getX() <= 0
+            || point.getX() >= board.size()
+            || (point.getX() % 2 == 0 && point.getY() % 2 == 0)){
+            return false;
+        }
+
+        return true;
     }
 
 }
