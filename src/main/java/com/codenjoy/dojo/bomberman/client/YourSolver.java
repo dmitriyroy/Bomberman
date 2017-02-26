@@ -10,12 +10,12 @@ package com.codenjoy.dojo.bomberman.client;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -30,9 +30,6 @@ import com.codenjoy.dojo.services.Point;
 import com.codenjoy.dojo.services.RandomDice;
 
 import java.util.Collection;
-import java.util.Random;
-
-import static java.lang.Math.sqrt;
 
 /**
  * User: your name
@@ -45,6 +42,14 @@ public class YourSolver implements Solver<Board> {
     private Board board;
     Direction lastDirection = Direction.UP;
     Direction newDirection = Direction.UP;
+    String returnDirectionString;
+    Collection<Point> destroyWalls;
+    Collection<Point> bombs;
+    Collection<Point> bombermans;
+    Collection<Point> meatChoppers;
+    Point myPosition;
+    Point goal;
+    boolean isGoalExist = true;
 
     public YourSolver(Dice dice) {
         this.dice = dice;
@@ -55,13 +60,19 @@ public class YourSolver implements Solver<Board> {
         this.board = board;
         if (board.isGameOver()) return "";
 
-        Point myPosition = board.getBomberman();
-        Collection<Point> destroyWals = board.getDestroyWalls();
-        Collection<Point> bombs = board.getBombs();
-        Collection<Point> bombermans = board.getOtherBombermans();
-        Collection<Point> meatChppers = board.getMeatChoppers();
+        myPosition = board.getBomberman();
+        destroyWalls = board.getDestroyWalls();
+        bombs = board.getBombs();
+        bombermans = board.getOtherBombermans();
+        meatChoppers = board.getMeatChoppers();
 
-        int dx = myPosition.getX() - myPosition.getX();
+        if(isGoalExist){
+            goal = getGoal(board,myPosition, "DESTROYWALL");
+            isGoalExist = true;
+        }
+        moveToGoal(board,myPosition,goal);
+
+
         //   X X X X X X X
         // Y 0 1 2 3 4 5 6
         // Y 1 8 8
@@ -70,40 +81,36 @@ public class YourSolver implements Solver<Board> {
         // Y 4   + 8 +   +
         // Y 5
 
-//        String direct = "";
-//        direct = Direction.ACT.UP.toString();
-//        direct = Direction.ACT.toString();
-//        direct = Direction.ACT(2, 0, -1);
         // если Х нечетная, то я могу двигаться только по вертикали
         if(myPosition.getX() % 2 == 1){
             if(lastDirection.toString().equals("UP")){
                 if(isPointEmpty(myPosition,"UP", board)) {
                     newDirection = Direction.UP;
                     lastDirection = newDirection;
+                    returnDirectionString = newDirection.toString();
                 }else{
                     lastDirection = newDirection.inverted();
                     newDirection = Direction.ACT;
+//                    returnDirectionString = "ACT,"+newDirection.toString();
+                    returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
                 }
             }else if(lastDirection.toString().equals("DOWN")){
                 if(isPointEmpty(myPosition,"DOWN", board)) {
                     newDirection = Direction.DOWN;
                     lastDirection = newDirection;
+                    returnDirectionString = newDirection.toString();
                 }else {
                     lastDirection = newDirection.inverted();
                     newDirection = Direction.ACT;
+//                    returnDirectionString = "ACT,"+newDirection.toString();
+                    returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
                 }
 
             }else{
                 newDirection = Direction.UP;
                 lastDirection = newDirection;
+                returnDirectionString = newDirection.toString();
             }
-//            else if(lastDirection.toString().equals("LEFT")){
-//
-//            }else if(lastDirection.toString().equals("RIGHT")){
-//
-//            }else{
-//                // TODO надо подумать. Здесь мы положили бомбу .ACT
-//            }
 
         // если Х четная, то я могу двигаться только по горизонтали
         }else{
@@ -111,17 +118,23 @@ public class YourSolver implements Solver<Board> {
                 if(isPointEmpty(myPosition,"LEFT", board)) {
                     newDirection = Direction.LEFT;
                     lastDirection = newDirection;
+                    returnDirectionString = newDirection.toString();
                 }else{
                     lastDirection = newDirection.inverted();
                     newDirection = Direction.ACT;
+//                    returnDirectionString = "ACT,"+newDirection.toString();
+                    returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
                 }
             }else if(lastDirection.toString().equals("RIGHT")){
                 if(isPointEmpty(myPosition,"RIGHT", board)) {
                     newDirection = Direction.RIGHT;
                     lastDirection = newDirection;
+                    returnDirectionString = newDirection.toString();
                 }else{
                     lastDirection = newDirection.inverted();
                     newDirection = Direction.ACT;
+//                    returnDirectionString = "ACT,"+newDirection.toString();
+                    returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
                 }
 
             }else{
@@ -130,11 +143,32 @@ public class YourSolver implements Solver<Board> {
             }
         }
 
-        return newDirection.toString();
+        return returnDirectionString;
+    }
+
+    private Point getGoal(Board board, Point myPosition, String typeGoal) {
+        Point goal = null;
+        int lengthWay = 1000;
+        switch (typeGoal.toUpperCase()){
+            case "DESTROYWALL":
+                for(Point destroyWall: destroyWalls){
+                    int tmpLength =Math.abs(myPosition.getX() - destroyWall.getX()) + Math.abs(myPosition.getY() - destroyWall.getY();
+                    if(tmpLength < lengthWay){
+                        lengthWay = tmpLength;
+                        goal = destroyWall;
+                    }
+                }
+                break;
+            default:
+        }
+
+        return goal;
     }
 
     public static void main(String[] args) {
-        start(USER_NAME, WebSocketRunner.Host.REMOTE);
+
+//        start(USER_NAME, WebSocketRunner.Host.REMOTE);
+        start(USER_NAME, WebSocketRunner.Host.LOCAL);
     }
 
     public static void start(String name, WebSocketRunner.Host server) {
