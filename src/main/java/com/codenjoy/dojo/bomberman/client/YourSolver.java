@@ -153,7 +153,7 @@ public class YourSolver implements Solver<Board> {
         switch (typeGoal.toUpperCase()){
             case "DESTROYWALL":
                 for(Point destroyWall: destroyWalls){
-                    int tmpLength =Math.abs(myPosition.getX() - destroyWall.getX()) + Math.abs(myPosition.getY() - destroyWall.getY();
+                    int tmpLength =Math.abs(myPosition.getX() - destroyWall.getX()) + Math.abs(myPosition.getY() - destroyWall.getY());
                     if(tmpLength < lengthWay){
                         lengthWay = tmpLength;
                         goal = destroyWall;
