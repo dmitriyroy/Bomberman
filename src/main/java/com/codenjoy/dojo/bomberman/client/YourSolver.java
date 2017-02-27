@@ -70,7 +70,7 @@ public class YourSolver implements Solver<Board> {
             goal = getGoal(board,myPosition, "DESTROYWALL");
             isGoalExist = true;
         }
-        moveToGoal(board,myPosition,goal);
+//        moveToGoal(board,myPosition,goal);
 
 
         //   X X X X X X X
@@ -90,14 +90,10 @@ public class YourSolver implements Solver<Board> {
                     returnDirectionString = newDirection.toString();
                 }else{
                     lastDirection = newDirection.inverted();
-<<<<<<< Updated upstream
                     newDirection = Direction.ACT;
 //                    returnDirectionString = "ACT,"+newDirection.toString();
                     returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
-=======
-//                    newDirection = Direction.ACT;
-                    newDirection = "ACT,LEFT";
->>>>>>> Stashed changes
+
                 }
             }else if(lastDirection.toString().equals("DOWN")){
                 if(isPointEmpty(myPosition,"DOWN", board)) {
@@ -171,10 +167,6 @@ public class YourSolver implements Solver<Board> {
     }
 
     public static void main(String[] args) {
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 //        start(USER_NAME, WebSocketRunner.Host.REMOTE);
         start(USER_NAME, WebSocketRunner.Host.LOCAL);
     }
