@@ -70,100 +70,13 @@ public class YourSolver implements Solver<Board> {
             goal = getGoal(board,myPosition, "DESTROYWALL");
             isGoalExist = true;
         }
-//        moveToGoal(board,myPosition,goal);
+
+        returnDirectionString = moveToGoal(board,myPosition,goal);
 
 
-        //   X X X X X X X
-        // Y 0 1 2 3 4 5 6
-        // Y 1 8 8
-        // Y 2 8 +   +   +
-        // Y 3     8 8
-        // Y 4   + 8 +   +
-        // Y 5
 
-        // если Х нечетная, то я могу двигаться только по вертикали
-        if(myPosition.getX() % 2 == 1){
-            if(lastDirection.toString().equals("UP")){
-                if(isPointEmpty(myPosition,"UP", board)) {
-                    newDirection = Direction.UP;
-                    lastDirection = newDirection;
-                    returnDirectionString = newDirection.toString();
-                }else{
-                    lastDirection = newDirection.inverted();
-                    newDirection = Direction.ACT;
-//                    returnDirectionString = "ACT,"+newDirection.toString();
-                    returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
-
-                }
-            }else if(lastDirection.toString().equals("DOWN")){
-                if(isPointEmpty(myPosition,"DOWN", board)) {
-                    newDirection = Direction.DOWN;
-                    lastDirection = newDirection;
-                    returnDirectionString = newDirection.toString();
-                }else {
-                    lastDirection = newDirection.inverted();
-                    newDirection = Direction.ACT;
-//                    returnDirectionString = "ACT,"+newDirection.toString();
-                    returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
-                }
-
-            }else{
-                newDirection = Direction.UP;
-                lastDirection = newDirection;
-                returnDirectionString = newDirection.toString();
-            }
-
-        // если Х четная, то я могу двигаться только по горизонтали
-        }else{
-            if(lastDirection.toString().equals("LEFT")){
-                if(isPointEmpty(myPosition,"LEFT", board)) {
-                    newDirection = Direction.LEFT;
-                    lastDirection = newDirection;
-                    returnDirectionString = newDirection.toString();
-                }else{
-                    lastDirection = newDirection.inverted();
-                    newDirection = Direction.ACT;
-//                    returnDirectionString = "ACT,"+newDirection.toString();
-                    returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
-                }
-            }else if(lastDirection.toString().equals("RIGHT")){
-                if(isPointEmpty(myPosition,"RIGHT", board)) {
-                    newDirection = Direction.RIGHT;
-                    lastDirection = newDirection;
-                    returnDirectionString = newDirection.toString();
-                }else{
-                    lastDirection = newDirection.inverted();
-                    newDirection = Direction.ACT;
-//                    returnDirectionString = "ACT,"+newDirection.toString();
-                    returnDirectionString = newDirection.toString() + "," + lastDirection.toString();
-                }
-
-            }else{
-                newDirection = Direction.RIGHT;
-                lastDirection = newDirection;
-            }
-        }
 
         return returnDirectionString;
-    }
-
-    private Point getGoal(Board board, Point myPosition, String typeGoal) {
-        Point goal = null;
-        int lengthWay = 1000;
-        switch (typeGoal.toUpperCase()){
-            case "DESTROYWALL":
-                for(Point destroyWall: destroyWalls){
-                    int tmpLength =Math.abs(myPosition.getX() - destroyWall.getX()) + Math.abs(myPosition.getY() - destroyWall.getY());
-                    if(tmpLength < lengthWay){
-                        lengthWay = tmpLength;
-                        goal = destroyWall;
-                    }
-                }
-                break;
-            default:
-        }
-
-        return goal;
     }
 
     public static void main(String[] args) {
@@ -179,6 +92,82 @@ public class YourSolver implements Solver<Board> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public String moveToGoal(Board board,Point myPosition, Point goal){
+        String outDirectionString;
+        //   X X X X X X X
+        // Y 0 1 2 3 4 5 6
+        // Y 1 8 8
+        // Y 2 8 +   +   +
+        // Y 3     8 8
+        // Y 4   + 8 +   +
+        // Y 5
+
+        // если Х нечетная, то я могу двигаться только по вертикали
+        if(myPosition.getX() % 2 == 1){
+            if(lastDirection.toString().equals("UP")){
+                if(isPointEmpty(myPosition,"UP", board)) {
+                    newDirection = Direction.UP;
+                    lastDirection = newDirection;
+                    outDirectionString = newDirection.toString();
+                }else{
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+//                    returnDirectionString = "ACT,"+newDirection.toString();
+                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
+
+                }
+            }else if(lastDirection.toString().equals("DOWN")){
+                if(isPointEmpty(myPosition,"DOWN", board)) {
+                    newDirection = Direction.DOWN;
+                    lastDirection = newDirection;
+                    outDirectionString = newDirection.toString();
+                }else {
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+//                    returnDirectionString = "ACT,"+newDirection.toString();
+                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
+                }
+
+            }else{
+                newDirection = Direction.UP;
+                lastDirection = newDirection;
+                outDirectionString = newDirection.toString();
+            }
+
+            // если Х четная, то я могу двигаться только по горизонтали
+        }else{
+            if(lastDirection.toString().equals("LEFT")){
+                if(isPointEmpty(myPosition,"LEFT", board)) {
+                    newDirection = Direction.LEFT;
+                    lastDirection = newDirection;
+                    outDirectionString = newDirection.toString();
+                }else{
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+//                    returnDirectionString = "ACT,"+newDirection.toString();
+                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
+                }
+            }else if(lastDirection.toString().equals("RIGHT")){
+                if(isPointEmpty(myPosition,"RIGHT", board)) {
+                    newDirection = Direction.RIGHT;
+                    lastDirection = newDirection;
+                    outDirectionString = newDirection.toString();
+                }else{
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+//                    returnDirectionString = "ACT,"+newDirection.toString();
+                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
+                }
+
+            }else{
+                newDirection = Direction.RIGHT;
+                lastDirection = newDirection;
+                outDirectionString = newDirection.toString();
+            }
+        }
+
+        return outDirectionString;
     }
 
     public boolean isPointEmpty(Point point,String direction,Board board){
@@ -250,6 +239,25 @@ public class YourSolver implements Solver<Board> {
         }
 
         return !isPointDanger;
+    }
+
+    private Point getGoal(Board board, Point myPosition, String typeGoal) {
+        Point goal = null;
+        int lengthWay = 1000;
+        switch (typeGoal.toUpperCase()){
+            case "DESTROYWALL":
+                for(Point destroyWall: destroyWalls){
+                    int tmpLength =Math.abs(myPosition.getX() - destroyWall.getX()) + Math.abs(myPosition.getY() - destroyWall.getY());
+                    if(tmpLength < lengthWay){
+                        lengthWay = tmpLength;
+                        goal = destroyWall;
+                    }
+                }
+                break;
+            default:
+        }
+
+        return goal;
     }
 
 }
