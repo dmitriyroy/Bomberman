@@ -71,7 +71,7 @@ public class YourSolver implements Solver<Board> {
             isGoalExist = true;
         }
 
-        returnDirectionString = moveToGoal(board,myPosition,goal);
+        returnDirectionString = stepToGoal(board,myPosition,goal);
 
 
 
@@ -93,7 +93,7 @@ public class YourSolver implements Solver<Board> {
             e.printStackTrace();
         }
     }
-    public String moveToGoal(Board board,Point myPosition, Point goal){
+    public String stepToGoal(Board board, Point myPosition, Point goal){
         String outDirectionString;
         //   X X X X X X X
         // Y 0 1 2 3 4 5 6
@@ -103,6 +103,19 @@ public class YourSolver implements Solver<Board> {
         // Y 4   + 8 +   +
         // Y 5
 
+        // если цель выше ( getY() > моего)
+        // то идем вверх при условии, что вверх-вниз можно ходить
+        if((goal.getY() - myPosition.getY()) < 0){
+
+
+        // движемся вниз при условии, что вверх-вниз можно ходить
+        }else if((goal.getY() - myPosition.getY()) > 0){
+
+
+        // находимся на одной линии Y
+        }else{
+
+        }
         // если Х нечетная, то я могу двигаться только по вертикали
         if(myPosition.getX() % 2 == 1){
             if(lastDirection.toString().equals("UP")){
