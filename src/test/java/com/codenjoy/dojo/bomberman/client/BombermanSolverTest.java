@@ -115,6 +115,29 @@ public class BombermanSolverTest {
                 Direction.UP);
     }
 
+    @Test
+    public void stepUp5() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼#☼" +
+                        "☼    ☺☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.UP);
+    }
+
+    @Test
+    public void stepUp6() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼#☼ ☼ ☼" +
+                        "☼☺    ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.UP);
+    }
 
     @Test
     public void stepLeft1() {
@@ -125,6 +148,18 @@ public class BombermanSolverTest {
                       "☼ ☼ ☼ ☼" +
                       "☼     ☼" +
                       "☼☼☼☼☼☼☼",
+                Direction.LEFT);
+    }
+
+    @Test
+    public void stepLeft2() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼  ☺  ☼" +
+                        "☼#☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
                 Direction.LEFT);
     }
 
@@ -146,6 +181,18 @@ public class BombermanSolverTest {
                         "☼  ☺  ☼" +
                         "☼ ☼ ☼#☼" +
                         "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.RIGHT);
+    }
+
+    @Test
+    public void stepRight3() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼#☼" +
+                        "☼  ☺  ☼" +
                         "☼ ☼ ☼ ☼" +
                         "☼     ☼" +
                         "☼☼☼☼☼☼☼",

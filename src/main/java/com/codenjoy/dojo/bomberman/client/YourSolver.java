@@ -112,13 +112,39 @@ public class YourSolver implements Solver<Board> {
         // если цель выше ( getY() > моего.getY() )
         // то идем вверх при условии, что вверх-вниз можно ходить
         if((goal.getY() - myPosition.getY()) < 0){
-            // если можем двигаться по вертикали
-            outDirectionString = step(board, myPosition, "UP");
+            if((goal.getY() - myPosition.getY()) == 1 || (goal.getY() - myPosition.getY()) == -1){
+                if((goal.getX() - myPosition.getY()) > 0) {
+                    outDirectionString = step(board, myPosition, "RIGHT");
+                }else if((goal.getX() - myPosition.getY()) < 0){
+                    outDirectionString = step(board, myPosition, "LEFT");
+                }else{
+                    // TODO здесь возможно будет ингода стопор (когда будем идти мимо бомбы)
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
+                }
+            }else {
+                // если можем двигаться по вертикали
+                outDirectionString = step(board, myPosition, "UP");
+            }
 
             // движемся вниз при условии, что вверх-вниз можно ходить
         }else if((goal.getY() - myPosition.getY()) > 0){
-            // если можем двигаться по вертикали
-            outDirectionString = step(board, myPosition, "DOWN");
+            if((goal.getY() - myPosition.getY()) == 1 || (goal.getY() - myPosition.getY()) == -1){
+                if((goal.getX() - myPosition.getY()) > 0) {
+                    outDirectionString = step(board, myPosition, "RIGHT");
+                }else if((goal.getX() - myPosition.getY()) < 0){
+                    outDirectionString = step(board, myPosition, "LEFT");
+                }else{
+                    // TODO здесь возможно будет ингода стопор (когда будем идти мимо бомбы)
+                    lastDirection = newDirection.inverted();
+                    newDirection = Direction.ACT;
+                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
+                }
+            }else {
+                // если можем двигаться по вертикали
+                outDirectionString = step(board, myPosition, "DOWN");
+            }
 
         // находимся на одной линии Y
         // (goal.getY() - myPosition.getY()) == 0
