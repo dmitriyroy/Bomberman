@@ -35,55 +35,33 @@ public class BombermanSolverTest {
     private Dice dice = mock(Dice.class);
     private final YourSolver solver = new YourSolver(dice);
 
+    private void assertA(String board, String direction) {
+        assertEquals(direction.toString(), solver.get((Board) new Board().forString(board)));
+    }
     private void assertB(String board, Direction direction) {
         assertEquals(direction.toString(), solver.get((Board) new Board().forString(board)));
     }
 
-    @Test
-    public void stepDown1() {
-        assertB("☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼" +
-                      "☼☺        # # ☼" +
-                      "☼ ☼ ☼ ☼#☼ ☼ ☼ ☼" +
-                      "☼##           ☼" +
-                      "☼ ☼ ☼#☼ ☼ ☼ ☼ ☼" +
-                      "☼   #    # #  ☼" +
-                      "☼ ☼ ☼ ☼#☼ ☼ ☼ ☼" +
-                      "☼             ☼" +
-                      "☼#☼ ☼ ☼#☼ ☼ ☼#☼" +
-                      "☼  #  #       ☼" +
-                      "☼ ☼ ☼ ☼ ☼ ☼ ☼#☼" +
-                      "☼ ##      #   ☼" +
-                      "☼ ☼ ☼ ☼ ☼ ☼ ☼#☼" +
-                      "☼ #   #  &    ☼" +
-                      "☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼",
-                Direction.DOWN);
-    }
 
     @Test
     public void stepUp1() {
-        assertB("☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼" +
-                       "☼         # # ☼" +
-                       "☼ ☼ ☼ ☼#☼ ☼ ☼ ☼" +
-                       "☼##           ☼" +
-                       "☼ ☼ ☼#☼ ☼ ☼ ☼ ☼" +
-                       "☼☺  #    # #  ☼" +
-                       "☼ ☼ ☼ ☼#☼ ☼ ☼ ☼" +
-                       "☼             ☼" +
-                       "☼#☼ ☼ ☼#☼ ☼ ☼#☼" +
-                       "☼  #  #       ☼" +
-                       "☼ ☼ ☼ ☼ ☼ ☼ ☼#☼" +
-                       "☼ ##      #   ☼" +
-                       "☼ ☼ ☼ ☼ ☼ ☼ ☼#☼" +
-                       "☼ #   #  &    ☼" +
-                       "☼☼☼☼☼☼☼☼☼☼☼☼☼☼☼",
+                      // 0123456
+        assertB(  "☼☼☼☼☼☼☼" + // 0
+                        "☼    #☼" + // 1
+                        "☼ ☼ ☼ ☼" + // 2
+                        "☼  ☺  ☼" + // 3
+                        "☼ ☼ ☼ ☼" + // 4
+                        "☼     ☼" + // 5
+                        "☼☼☼☼☼☼☼",  // 6
                 Direction.UP);
     }
 
     @Test
     public void stepUp2() {
+                         // 0123456
         assertB(  "☼☼☼☼☼☼☼" +
-                        "☼     ☼" +
-                        "☼ ☼☺☼#☼" +
+                        "☼    #☼" +
+                        "☼ ☼☺☼ ☼" +
                         "☼     ☼" +
                         "☼ ☼ ☼ ☼" +
                         "☼     ☼" +
@@ -93,6 +71,46 @@ public class BombermanSolverTest {
 
     @Test
     public void stepUp3() {
+                      // 0123456
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼#    ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼  ☺  ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.UP);
+    }
+
+    @Test
+    public void stepUp4() {
+                      // 0123456
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼#    ☼" +
+                        "☼ ☼☺☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.UP);
+    }
+
+    @Test
+    public void stepUp5() {
+        // 0123456
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼  #  ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼  ☺  ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.UP);
+    }
+
+    @Test
+    public void stepUp6() {
+        // 0123456
         assertB(  "☼☼☼☼☼☼☼" +
                         "☼     ☼" +
                         "☼#☼☺☼ ☼" +
@@ -104,41 +122,175 @@ public class BombermanSolverTest {
     }
 
     @Test
-    public void stepUp4() {
+    public void stepUp7() {
+        // 0123456
         assertB(  "☼☼☼☼☼☼☼" +
                         "☼     ☼" +
-                        "☼ ☼ ☼#☼" +
+                        "☼ ☼☺☼#☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.UP);
+    }
+///////////////////////////////////////////////////////////////
+    @Test
+    public void stepDown1() {
+                      // 0123456
+        assertB(  "☼☼☼☼☼☼☼" +
                         "☼     ☼" +
                         "☼ ☼ ☼ ☼" +
                         "☼  ☺  ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼#    ☼" +
                         "☼☼☼☼☼☼☼",
-                Direction.UP);
+                Direction.DOWN);
+    }
+    @Test
+    public void stepDown2() {
+                      // 0123456
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼☺☼ ☼" +
+                        "☼#    ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.DOWN);
+    }
+    @Test
+    public void stepDown3() {
+                      // 0123456
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼  ☺  ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼    #☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.DOWN);
+    }
+    @Test
+    public void stepDown4() {
+                      // 0123456
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼☺☼ ☼" +
+                        "☼    #☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.DOWN);
+    }
+    @Test
+    public void stepDown5() {
+        // 0123456
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼  ☺  ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼  #  ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.DOWN);
+    }
+///////////////////////////////////////////////////////////////
+    @Test
+    public void stepRight1() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼    #☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼ ☺   ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.RIGHT);
     }
 
     @Test
-    public void stepUp5() {
+    public void stepRight2() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼    #☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   ☺ ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.RIGHT);
+    }
+
+    @Test
+    public void stepRight3() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼ ☺   ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼    #☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.RIGHT);
+    }
+
+    @Test
+    public void stepRight4() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   ☺ ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼    #☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.RIGHT);
+    }
+
+    @Test
+    public void stepRight5() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼  ☺ #☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.RIGHT);
+    }
+
+    @Test
+    public void stepRight6() {
+        assertB(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   ☺ ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   # ☼" +
+                        "☼☼☼☼☼☼☼",
+                Direction.RIGHT);
+    }
+
+    @Test
+    public void stepRight7() {
         assertB(  "☼☼☼☼☼☼☼" +
                         "☼     ☼" +
                         "☼ ☼ ☼#☼" +
-                        "☼    ☺☼" +
+                        "☼  ☺  ☼" +
                         "☼ ☼ ☼ ☼" +
                         "☼     ☼" +
                         "☼☼☼☼☼☼☼",
-                Direction.UP);
+                Direction.RIGHT);
     }
 
     @Test
-    public void stepUp6() {
+    public void stepRight8() {
         assertB(  "☼☼☼☼☼☼☼" +
                         "☼     ☼" +
-                        "☼#☼ ☼ ☼" +
-                        "☼☺    ☼" +
                         "☼ ☼ ☼ ☼" +
+                        "☼  ☺  ☼" +
+                        "☼ ☼ ☼#☼" +
                         "☼     ☼" +
                         "☼☼☼☼☼☼☼",
-                Direction.UP);
+                Direction.RIGHT);
     }
-
+    ///////////////////////////////////////////////////////////////
     @Test
     public void stepLeft1() {
         assertB("☼☼☼☼☼☼☼" +
@@ -164,39 +316,206 @@ public class BombermanSolverTest {
     }
 
     @Test
-    public void stepRight1() {
-        assertB("☼☼☼☼☼☼☼" +
-                      "☼     ☼" +
-                      "☼ ☼ ☼ ☼" +
-                      "☼  ☺ #☼" +
-                      "☼ ☼ ☼ ☼" +
-                      "☼     ☼" +
-                      "☼☼☼☼☼☼☼",
-                Direction.RIGHT);
-    }
-
-    @Test
-    public void stepRight2() {
-        assertB(  "☼☼☼☼☼☼☼" +
-                        "☼  ☺  ☼" +
-                        "☼ ☼ ☼#☼" +
-                        "☼     ☼" +
-                        "☼ ☼ ☼ ☼" +
-                        "☼     ☼" +
-                        "☼☼☼☼☼☼☼",
-                Direction.RIGHT);
-    }
-
-    @Test
-    public void stepRight3() {
+    public void stepLeft3() {
         assertB(  "☼☼☼☼☼☼☼" +
                         "☼     ☼" +
-                        "☼ ☼ ☼#☼" +
+                        "☼#☼ ☼ ☼" +
                         "☼  ☺  ☼" +
                         "☼ ☼ ☼ ☼" +
                         "☼     ☼" +
                         "☼☼☼☼☼☼☼",
-                Direction.RIGHT);
+                Direction.LEFT);
+    }
+///////////////////////////////////////////////////////////////
+    @Test
+    public void stepAct_Down1() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼#☼" +
+                        "☼    ☺☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,DOWN");
     }
 
+    @Test
+    public void stepAct_Down2() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼#☼ ☼ ☼" +
+                        "☼☺    ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,DOWN");
+    }
+
+    @Test
+    public void stepAct_Down3() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼ #☺# ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,DOWN");
+    }
+
+    @Test
+    public void stepAct_Down4() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼   #☺☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,DOWN");
+    }
+
+    @Test
+    public void stepAct_Down5() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼☺#   ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,DOWN");
+    }
+
+    @Test
+    public void stepAct_Down6() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼☺#   ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,DOWN");
+    }
+
+    @Test
+    public void stepAct_Down7() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   #☺☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,DOWN");
+    }
+///////////////////////////////////////////////////////////////
+    @Test
+    public void stepAct_Up1() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼    ☺☼" +
+                        "☼ ☼ ☼#☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,UP");
+    }
+
+    @Test
+    public void stepAct_Up2() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼☺    ☼" +
+                        "☼#☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,UP");
+    }
+
+    @Test
+    public void stepAct_Up3() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼ #☺# ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,UP");
+    }
+
+    @Test
+    public void stepAct_Up4() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼☺#   ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,UP");
+    }
+
+    @Test
+    public void stepAct_Up5() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   #☺☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,UP");
+    }
+///////////////////////////////////////////////////////////////
+
+    @Test
+    public void stepAct_Right1() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼#☺   ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,RIGHT");
+    }
+    @Test
+    public void stepAct_Right2() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼#☺   ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,RIGHT");
+    }
+///////////////////////////////////////////////////////////////
+
+    @Test
+    public void stepAct_Left1() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼   ☺#☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,RIGHT");
+    }
+    @Test
+    public void stepAct_Left2() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   ☺#☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,RIGHT");
+    }
 }

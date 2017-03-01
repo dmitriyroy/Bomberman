@@ -31,6 +31,8 @@ import com.codenjoy.dojo.services.RandomDice;
 
 import java.util.Collection;
 
+import static java.lang.Math.abs;
+
 /**
  * User: your name
  */
@@ -40,8 +42,8 @@ public class YourSolver implements Solver<Board> {
 
     private Dice dice;
     private Board board;
-    private Direction lastDirection = Direction.UP;
-    private Direction newDirection = Direction.UP;
+    private Direction lastDirection = Direction.STOP;
+    private Direction newDirection = Direction.STOP;
     private String returnDirectionString;
     private Collection<Point> destroyWalls;
     private Collection<Point> bombs;
@@ -49,7 +51,7 @@ public class YourSolver implements Solver<Board> {
     private Collection<Point> meatChoppers;
     private Point myPosition;
     private Point goal;
-    private boolean isGoalExist = true;
+    private boolean isNeedGoal = true;
 
     public YourSolver(Dice dice) {
         this.dice = dice;
@@ -66,15 +68,12 @@ public class YourSolver implements Solver<Board> {
         bombermans = board.getOtherBombermans();
         meatChoppers = board.getMeatChoppers();
 
-        if(isGoalExist){
+        if(isNeedGoal){
             goal = getGoal(board,myPosition, "DESTROYWALL");
-            isGoalExist = true;
+            isNeedGoal = true;
         }
 
         returnDirectionString = stepToGoal(board,myPosition,goal);
-
-
-
 
         return returnDirectionString;
     }
@@ -100,15 +99,269 @@ public class YourSolver implements Solver<Board> {
         return myPosition.getY() % 2 == 1;
     }
     public String stepToGoal(Board board, Point myPosition, Point goal){
-        String outDirectionString;
-        //   X X X X X X X
-        // Y 0 1 2 3 4 5 6
-        // Y 1 8 8
-        // Y 2 8 +   +   +
-        // Y 3     8 8
-        // Y 4   + 8 +   +
-        // Y 5
+        String outDirectionString = null;
 
+        // есль цель на этом уровне
+        if(goal.getY() - myPosition.getY() == 0) {
+            if(isMoveLeftRight(myPosition)){
+                if(goal.getX() - myPosition.getX() < 0){
+                    if(isPointEmpty(board,myPosition,"LEFT")){
+                        outDirectionString = Direction.LEFT.toString();
+                    }else if(isPointEmpty(board,myPosition,"RIGHT")){
+                        outDirectionString = "ACT," + Direction.RIGHT.toString();
+                    }else{
+                        if(isMoveUpDown(myPosition)){
+                            if(isPointEmpty(board,myPosition,"UP")){
+                                outDirectionString = Direction.UP.toString();
+                            }else if(isPointEmpty(board,myPosition,"DOWN")){
+                                outDirectionString = "ACT," + Direction.DOWN.toString();
+                            }else{
+                                // всё занято
+                                outDirectionString = Direction.ACT.toString();
+                            }
+                        }
+                    }
+                }else{
+                    if(isPointEmpty(board,myPosition,"RIGHT")){
+                        outDirectionString = Direction.RIGHT.toString();
+                    }else if(isPointEmpty(board,myPosition,"LEFT")){
+                        outDirectionString = "ACT," + Direction.LEFT.toString();
+                    }else{
+                        if(isMoveUpDown(myPosition)){
+                            if(isPointEmpty(board,myPosition,"UP")){
+                                outDirectionString = Direction.UP.toString();
+                            }else if(isPointEmpty(board,myPosition,"DOWN")){
+                                outDirectionString = "ACT," + Direction.DOWN.toString();
+                            }else{
+                                // всё занято
+                                outDirectionString = Direction.ACT.toString();
+                            }
+                        }
+                    }
+                }
+            }else{
+                if(isPointEmpty(board,myPosition,"UP")){
+                    outDirectionString = Direction.UP.toString();
+                }else if(isPointEmpty(board,myPosition,"DOWN")){
+                    outDirectionString = "ACT," + Direction.DOWN.toString();
+                }else{
+                    // всё занято
+                    outDirectionString = Direction.ACT.toString();
+                }
+            }
+
+        // если цель выше
+        }else if(goal.getY() - myPosition.getY() < 0){
+            if(abs(goal.getY() - myPosition.getY()) == 1){
+                // если цель справа
+                if(goal.getX() - myPosition.getX() > 0) {
+                    if(isMoveLeftRight(myPosition)) {
+                        if (isPointEmpty(board, myPosition, "RIGHT")) {
+                            outDirectionString = Direction.RIGHT.toString();
+                        } else if (isPointEmpty(board, myPosition, "LEFT")) {
+                            outDirectionString = "ACT," + Direction.LEFT.toString();
+                        } else {
+                            if (isMoveUpDown(myPosition)) {
+                                if (isPointEmpty(board, myPosition, "UP")) {
+                                    outDirectionString = Direction.UP.toString();
+                                } else if (isPointEmpty(board, myPosition, "DOWN")) {
+                                    outDirectionString = "ACT," + Direction.DOWN.toString();
+                                } else {
+                                    outDirectionString = Direction.ACT.toString();
+                                }
+                            } else {
+                                outDirectionString = Direction.ACT.toString();
+                            }
+                        }
+                    }else{
+                        if (isPointEmpty(board, myPosition, "UP")) {
+                            outDirectionString = Direction.UP.toString();
+                        } else if (isPointEmpty(board, myPosition, "DOWN")) {
+                            outDirectionString = "ACT," + Direction.DOWN.toString();
+                        } else {
+                            outDirectionString = Direction.ACT.toString();
+                        }
+                    }
+                }else{
+                    if(isMoveLeftRight(myPosition)) {
+                        if (isPointEmpty(board, myPosition, "LEFT")) {
+                            outDirectionString = Direction.LEFT.toString();
+                        } else if (isPointEmpty(board, myPosition, "RIGHT")) {
+                            outDirectionString = "ACT," + Direction.RIGHT.toString();
+                        } else {
+                            if (isMoveUpDown(myPosition)) {
+                                if (isPointEmpty(board, myPosition, "UP")) {
+                                    outDirectionString = Direction.UP.toString();
+                                } else if (isPointEmpty(board, myPosition, "DOWN")) {
+                                    outDirectionString = "ACT," + Direction.DOWN.toString();
+                                } else {
+                                    outDirectionString = Direction.ACT.toString();
+                                }
+                            } else {
+                                outDirectionString = Direction.ACT.toString();
+                            }
+                        }
+                    }else{
+                        if (isPointEmpty(board, myPosition, "UP")) {
+                            outDirectionString = Direction.UP.toString();
+                        } else if (isPointEmpty(board, myPosition, "DOWN")) {
+                            outDirectionString = "ACT," + Direction.DOWN.toString();
+                        } else {
+                            outDirectionString = Direction.ACT.toString();
+                        }
+                    }
+                }
+            }else if(isMoveUpDown(myPosition)){
+                if(isPointEmpty(board,myPosition,"UP")){
+                    // если клетка свободная, то идемм верх
+                    outDirectionString = Direction.UP.toString();
+                }else{
+                    // если она занята, то проверяем
+                    if(isPointEmpty(board,myPosition,"DOWN")){
+                        outDirectionString = "ACT," + Direction.DOWN.toString();
+                    }else if(isPointEmpty(board,myPosition,"RIGHT")){
+                        outDirectionString = "ACT," + Direction.RIGHT.toString();
+                    }else if(isPointEmpty(board,myPosition,"LEFT")){
+                        outDirectionString = "ACT," + Direction.LEFT.toString();
+                    }else{
+                        // всё занято
+                        outDirectionString = Direction.ACT.toString();
+                    }
+                }
+            }else{
+                if(goal.getX() - myPosition.getX() > 0) {
+                    if (isPointEmpty(board, myPosition, "RIGHT")) {
+                        outDirectionString = Direction.RIGHT.toString();
+                    } else if (isPointEmpty(board, myPosition, "LEFT")) {
+                        outDirectionString = "ACT," + Direction.LEFT.toString();
+                    } else {
+                        // всё занято
+                        outDirectionString = Direction.ACT.toString();
+                    }
+                }else{
+                    if (isPointEmpty(board, myPosition, "LEFT")) {
+                        outDirectionString = Direction.LEFT.toString();
+                    } else if (isPointEmpty(board, myPosition, "RIGHT")) {
+                        outDirectionString = "ACT," + Direction.RIGHT.toString();
+                    } else {
+                        // всё занято
+                        outDirectionString = Direction.ACT.toString();
+                    }
+                }
+            }
+        // если цель ниже
+        }else if(goal.getY() - myPosition.getY() > 0){
+            if(abs(goal.getY() - myPosition.getY()) == 1){
+                // если цель справа
+                if(goal.getX() - myPosition.getX() > 0) {
+                    if(isMoveLeftRight(myPosition)) {
+                        if (isPointEmpty(board, myPosition, "RIGHT")) {
+                            outDirectionString = Direction.RIGHT.toString();
+                        } else if (isPointEmpty(board, myPosition, "LEFT")) {
+                            outDirectionString = "ACT," + Direction.LEFT.toString();
+                        } else {
+                            if (isMoveUpDown(myPosition)) {
+                                if (isPointEmpty(board, myPosition, "UP")) {
+                                    outDirectionString = Direction.UP.toString();
+                                } else if (isPointEmpty(board, myPosition, "DOWN")) {
+                                    outDirectionString = "ACT," + Direction.DOWN.toString();
+                                } else {
+                                    outDirectionString = Direction.ACT.toString();
+                                }
+                            } else {
+                                outDirectionString = Direction.ACT.toString();
+                            }
+                        }
+                    }else{
+                        if (isPointEmpty(board, myPosition, "DOWN")) {
+                            outDirectionString = Direction.DOWN.toString();
+                        } else if (isPointEmpty(board, myPosition, "UP")) {
+                            outDirectionString = "ACT," + Direction.UP.toString();
+                        } else {
+                            outDirectionString = Direction.ACT.toString();
+                        }
+                    }
+                }else if(goal.getX() - myPosition.getX() < 0){
+                    if(isMoveLeftRight(myPosition)) {
+                        if (isPointEmpty(board, myPosition, "LEFT")) {
+                            outDirectionString = Direction.LEFT.toString();
+                        } else if (isPointEmpty(board, myPosition, "RIGHT")) {
+                            outDirectionString = "ACT," + Direction.RIGHT.toString();
+                        } else {
+                            if (isMoveUpDown(myPosition)) {
+                                if (isPointEmpty(board, myPosition, "UP")) {
+                                    outDirectionString = Direction.UP.toString();
+                                } else if (isPointEmpty(board, myPosition, "DOWN")) {
+                                    outDirectionString = "ACT," + Direction.DOWN.toString();
+                                } else {
+                                    outDirectionString = Direction.ACT.toString();
+                                }
+                            } else {
+                                outDirectionString = Direction.ACT.toString();
+                            }
+                        }
+                    }else{
+                        if (isPointEmpty(board, myPosition, "DOWN")) {
+                            outDirectionString = Direction.DOWN.toString();
+                        } else if (isPointEmpty(board, myPosition, "UP")) {
+                            outDirectionString = "ACT," + Direction.UP.toString();
+                        } else {
+                            outDirectionString = Direction.ACT.toString();
+                        }
+                    }
+                }else{
+                    if(isPointEmpty(board,myPosition,"UP")){
+                        outDirectionString = "ACT," + Direction.UP.toString();
+                    }else if(isPointEmpty(board,myPosition,"RIGHT")){
+                        outDirectionString = "ACT," + Direction.RIGHT.toString();
+                    }else if(isPointEmpty(board,myPosition,"LEFT")){
+                        outDirectionString = "ACT," + Direction.LEFT.toString();
+                    }else{
+                        outDirectionString = Direction.ACT.toString();
+                    }
+                }
+            }else if(isMoveUpDown(myPosition)){
+                if(isPointEmpty(board,myPosition,"DOWN")){
+                    // если клетка свободная, то идемм верх
+                    outDirectionString = Direction.DOWN.toString();
+                }else{
+                    // если она занята, то проверяем
+                    if(isPointEmpty(board,myPosition,"RIGHT")){
+                        outDirectionString = "ACT," + Direction.RIGHT.toString();
+                    }else if(isPointEmpty(board,myPosition,"LEFT")){
+                        outDirectionString = "ACT," + Direction.LEFT.toString();
+                    }else if(isPointEmpty(board,myPosition,"UP")){
+                        outDirectionString = "ACT," + Direction.UP.toString();
+                    }else{
+                        // всё занято
+                        outDirectionString = Direction.ACT.toString();
+                    }
+                }
+            }else{
+                if(goal.getX() - myPosition.getX() < 0) {
+                    if (isPointEmpty(board, myPosition, "LEFT")) {
+                        outDirectionString = Direction.LEFT.toString();
+                    } else if (isPointEmpty(board, myPosition, "RIGHT")) {
+                        outDirectionString = "ACT," + Direction.RIGHT.toString();
+                    } else {
+                        // всё занято
+                        outDirectionString = Direction.ACT.toString();
+                    }
+                }else{
+                    if (isPointEmpty(board, myPosition, "RIGHT")) {
+                        outDirectionString = Direction.RIGHT.toString();
+                    } else if (isPointEmpty(board, myPosition, "LEFT")) {
+                        outDirectionString = "ACT," + Direction.LEFT.toString();
+                    } else {
+                        // всё занято
+                        outDirectionString = Direction.ACT.toString();
+                    }
+                }
+            }
+        }
+
+
+/*
         // если цель выше ( getY() > моего.getY() )
         // то идем вверх при условии, что вверх-вниз можно ходить
         if((goal.getY() - myPosition.getY()) < 0){
@@ -149,7 +402,7 @@ public class YourSolver implements Solver<Board> {
         // находимся на одной линии Y
         // (goal.getY() - myPosition.getY()) == 0
         }else{
-            // если можем двигаться по вертикали
+            // если можем двигаться по горизонтали
             if(isMoveLeftRight(myPosition)){
                 if((goal.getX() - myPosition.getX()) < 0){
                     // идем влево
@@ -178,7 +431,7 @@ public class YourSolver implements Solver<Board> {
                 }
             }
         }
-
+*/
         return outDirectionString;
     }
 
@@ -232,16 +485,18 @@ public class YourSolver implements Solver<Board> {
 
     private String step(Board board, Point myPosition, String direction) {
         String outDirectionString;
-        if(isPointEmpty(myPosition,direction.toUpperCase(), board)) {
+        if(isPointEmpty(board,myPosition,direction.toUpperCase())) {
             newDirection = getDirection(direction.toUpperCase());
             lastDirection = newDirection;
             outDirectionString = newDirection.toString();
-        }else if(isPointEmpty(myPosition,reverseDirection(direction.toUpperCase()).toString(), board)){
+        }
+        else if(isPointEmpty(board,myPosition,reverseDirection(direction.toUpperCase()).toString())){
             newDirection = reverseDirection(direction.toUpperCase());
             lastDirection = newDirection;
             outDirectionString = newDirection.toString();
 
-        }else {
+        }
+        else {
             lastDirection = newDirection.inverted();
             newDirection = Direction.ACT;
             outDirectionString = newDirection.toString() + "," + lastDirection.toString();
@@ -251,7 +506,7 @@ public class YourSolver implements Solver<Board> {
     }
 
 
-    public boolean isPointEmpty(Point point,String direction,Board board){
+    public boolean isPointEmpty(Board board,Point point,String direction){
 
         Collection<Point> destroyWals = board.getDestroyWalls();
         Collection<Point> bombs = board.getBombs();
@@ -329,7 +584,7 @@ public class YourSolver implements Solver<Board> {
         switch (typeGoal.toUpperCase()){
             case "DESTROYWALL":
                 for(Point destroyWall: destroyWalls){
-                    int tmpLength =Math.abs(myPosition.getX() - destroyWall.getX()) + Math.abs(myPosition.getY() - destroyWall.getY());
+                    int tmpLength = abs(myPosition.getX() - destroyWall.getX()) + abs(myPosition.getY() - destroyWall.getY());
                     if(tmpLength < lengthWay){
                         lengthWay = tmpLength;
                         goal = destroyWall;
