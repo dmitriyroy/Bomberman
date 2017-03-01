@@ -363,17 +363,17 @@ public class BombermanSolverTest {
                 "ACT,DOWN");
     }
 
-//    @Test
-//    public void stepAct_Down4() {
-//        assertA(  "☼☼☼☼☼☼☼" +
-//                        "☼   #☺☼" +
-//                        "☼ ☼ ☼ ☼" +
-//                        "☼     ☼" +
-//                        "☼ ☼ ☼ ☼" +
-//                        "☼     ☼" +
-//                        "☼☼☼☼☼☼☼",
-//                "ACT,DOWN");
-//    }
+    @Test
+    public void stepAct_Down4() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼   #☺☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,DOWN");
+    }
 
     @Test
     public void stepAct_Down5() {
@@ -435,17 +435,17 @@ public class BombermanSolverTest {
                 "ACT,UP");
     }
 
-//    @Test
-//    public void stepAct_Up5() {
-//        assertA(  "☼☼☼☼☼☼☼" +
-//                        "☼     ☼" +
-//                        "☼ ☼ ☼ ☼" +
-//                        "☼     ☼" +
-//                        "☼ ☼ ☼ ☼" +
-//                        "☼   #☺☼" +
-//                        "☼☼☼☼☼☼☼",
-//                "ACT,UP");
-//    }
+    @Test
+    public void stepAct_Up5() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   #☺☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,UP");
+    }
 
     @Test
     public void stepAct_Up6() {
@@ -459,17 +459,17 @@ public class BombermanSolverTest {
                 "ACT,UP");
     }
 
-//    @Test
-//    public void stepAct_Up7() {
-//        assertA(  "☼☼☼☼☼☼☼" +
-//                        "☼     ☼" +
-//                        "☼ ☼ ☼ ☼" +
-//                        "☼   #☺☼" +
-//                        "☼ ☼ ☼ ☼" +
-//                        "☼     ☼" +
-//                        "☼☼☼☼☼☼☼",
-//                "ACT,UP");
-//    }
+    @Test
+    public void stepAct_Up7() {
+        assertA(  "☼☼☼☼☼☼☼" +
+                        "☼     ☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼   #☺☼" +
+                        "☼ ☼ ☼ ☼" +
+                        "☼     ☼" +
+                        "☼☼☼☼☼☼☼",
+                "ACT,UP");
+    }
 ///////////////////////////////////////////////////////////////
 
     @Test

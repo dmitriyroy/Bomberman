@@ -543,10 +543,10 @@ public class YourSolver implements Solver<Board> {
         }
         if(point.getX() <= 0
 //            || point.getX() >= sqrt(board.size())
-            || point.getX() >= board.size() //32 //board.size()
+            || point.getX() >= board.size() - 1 //32 //board.size()
             || point.getY() <= 0
 //            || point.getY() >= sqrt(board.size())
-            || point.getY() >= board.size() //32 //board.size()
+            || point.getY() >= board.size() - 1 //32 //board.size()
                 // TODO - проверить, возможно, при выполнении этого условия будет ставить бомбы перед перегородками
             || (point.getX() % 2 == 0 && point.getY() % 2 == 0)){
             isPointDanger = true;
