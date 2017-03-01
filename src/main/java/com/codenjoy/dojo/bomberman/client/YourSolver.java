@@ -113,9 +113,9 @@ public class YourSolver implements Solver<Board> {
         // то идем вверх при условии, что вверх-вниз можно ходить
         if((goal.getY() - myPosition.getY()) < 0){
             if((goal.getY() - myPosition.getY()) == 1 || (goal.getY() - myPosition.getY()) == -1){
-                if((goal.getX() - myPosition.getY()) > 0) {
+                if((goal.getX() - myPosition.getX()) > 0) {
                     outDirectionString = step(board, myPosition, "RIGHT");
-                }else if((goal.getX() - myPosition.getY()) < 0){
+                }else if((goal.getX() - myPosition.getX()) < 0){
                     outDirectionString = step(board, myPosition, "LEFT");
                 }else{
                     // TODO здесь возможно будет ингода стопор (когда будем идти мимо бомбы)
@@ -131,9 +131,9 @@ public class YourSolver implements Solver<Board> {
             // движемся вниз при условии, что вверх-вниз можно ходить
         }else if((goal.getY() - myPosition.getY()) > 0){
             if((goal.getY() - myPosition.getY()) == 1 || (goal.getY() - myPosition.getY()) == -1){
-                if((goal.getX() - myPosition.getY()) > 0) {
+                if((goal.getX() - myPosition.getX()) > 0) {
                     outDirectionString = step(board, myPosition, "RIGHT");
-                }else if((goal.getX() - myPosition.getY()) < 0){
+                }else if((goal.getX() - myPosition.getX()) < 0){
                     outDirectionString = step(board, myPosition, "LEFT");
                 }else{
                     // TODO здесь возможно будет ингода стопор (когда будем идти мимо бомбы)
