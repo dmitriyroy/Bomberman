@@ -363,17 +363,17 @@ public class BombermanSolverTest {
                 "ACT,DOWN");
     }
 
-    @Test
-    public void stepAct_Down4() {
-        assertA(  "☼☼☼☼☼☼☼" +
-                        "☼   #☺☼" +
-                        "☼ ☼ ☼ ☼" +
-                        "☼     ☼" +
-                        "☼ ☼ ☼ ☼" +
-                        "☼     ☼" +
-                        "☼☼☼☼☼☼☼",
-                "ACT,DOWN");
-    }
+//    @Test
+//    public void stepAct_Down4() {
+//        assertA(  "☼☼☼☼☼☼☼" +
+//                        "☼   #☺☼" +
+//                        "☼ ☼ ☼ ☼" +
+//                        "☼     ☼" +
+//                        "☼ ☼ ☼ ☼" +
+//                        "☼     ☼" +
+//                        "☼☼☼☼☼☼☼",
+//                "ACT,DOWN");
+//    }
 
     @Test
     public void stepAct_Down5() {
@@ -381,30 +381,6 @@ public class BombermanSolverTest {
                         "☼☺#   ☼" +
                         "☼ ☼ ☼ ☼" +
                         "☼     ☼" +
-                        "☼ ☼ ☼ ☼" +
-                        "☼     ☼" +
-                        "☼☼☼☼☼☼☼",
-                "ACT,DOWN");
-    }
-
-    @Test
-    public void stepAct_Down6() {
-        assertA(  "☼☼☼☼☼☼☼" +
-                        "☼     ☼" +
-                        "☼ ☼ ☼ ☼" +
-                        "☼☺#   ☼" +
-                        "☼ ☼ ☼ ☼" +
-                        "☼     ☼" +
-                        "☼☼☼☼☼☼☼",
-                "ACT,DOWN");
-    }
-
-    @Test
-    public void stepAct_Down7() {
-        assertA(  "☼☼☼☼☼☼☼" +
-                        "☼     ☼" +
-                        "☼ ☼ ☼ ☼" +
-                        "☼   #☺☼" +
                         "☼ ☼ ☼ ☼" +
                         "☼     ☼" +
                         "☼☼☼☼☼☼☼",
@@ -459,17 +435,41 @@ public class BombermanSolverTest {
                 "ACT,UP");
     }
 
+//    @Test
+//    public void stepAct_Up5() {
+//        assertA(  "☼☼☼☼☼☼☼" +
+//                        "☼     ☼" +
+//                        "☼ ☼ ☼ ☼" +
+//                        "☼     ☼" +
+//                        "☼ ☼ ☼ ☼" +
+//                        "☼   #☺☼" +
+//                        "☼☼☼☼☼☼☼",
+//                "ACT,UP");
+//    }
+
     @Test
-    public void stepAct_Up5() {
+    public void stepAct_Up6() {
         assertA(  "☼☼☼☼☼☼☼" +
                         "☼     ☼" +
                         "☼ ☼ ☼ ☼" +
-                        "☼     ☼" +
+                        "☼☺#   ☼" +
                         "☼ ☼ ☼ ☼" +
-                        "☼   #☺☼" +
+                        "☼     ☼" +
                         "☼☼☼☼☼☼☼",
                 "ACT,UP");
     }
+
+//    @Test
+//    public void stepAct_Up7() {
+//        assertA(  "☼☼☼☼☼☼☼" +
+//                        "☼     ☼" +
+//                        "☼ ☼ ☼ ☼" +
+//                        "☼   #☺☼" +
+//                        "☼ ☼ ☼ ☼" +
+//                        "☼     ☼" +
+//                        "☼☼☼☼☼☼☼",
+//                "ACT,UP");
+//    }
 ///////////////////////////////////////////////////////////////
 
     @Test
@@ -505,7 +505,7 @@ public class BombermanSolverTest {
                         "☼ ☼ ☼ ☼" +
                         "☼     ☼" +
                         "☼☼☼☼☼☼☼",
-                "ACT,RIGHT");
+                "ACT,LEFT");
     }
     @Test
     public void stepAct_Left2() {
@@ -516,6 +516,6 @@ public class BombermanSolverTest {
                         "☼ ☼ ☼ ☼" +
                         "☼   ☺#☼" +
                         "☼☼☼☼☼☼☼",
-                "ACT,RIGHT");
+                "ACT,LEFT");
     }
 }

@@ -99,11 +99,12 @@ public class YourSolver implements Solver<Board> {
         return myPosition.getY() % 2 == 1;
     }
     public String stepToGoal(Board board, Point myPosition, Point goal){
-        String outDirectionString = null;
+        String outDirectionString = "";
 
         // есль цель на этом уровне
         if(goal.getY() - myPosition.getY() == 0) {
             if(isMoveLeftRight(myPosition)){
+                // если цель слева
                 if(goal.getX() - myPosition.getX() < 0){
                     if(isPointEmpty(board,myPosition,"LEFT")){
                         outDirectionString = Direction.LEFT.toString();
@@ -112,7 +113,7 @@ public class YourSolver implements Solver<Board> {
                     }else{
                         if(isMoveUpDown(myPosition)){
                             if(isPointEmpty(board,myPosition,"UP")){
-                                outDirectionString = Direction.UP.toString();
+                                outDirectionString = "ACT," + Direction.UP.toString();
                             }else if(isPointEmpty(board,myPosition,"DOWN")){
                                 outDirectionString = "ACT," + Direction.DOWN.toString();
                             }else{
@@ -129,7 +130,7 @@ public class YourSolver implements Solver<Board> {
                     }else{
                         if(isMoveUpDown(myPosition)){
                             if(isPointEmpty(board,myPosition,"UP")){
-                                outDirectionString = Direction.UP.toString();
+                                outDirectionString = "ACT," + Direction.UP.toString();
                             }else if(isPointEmpty(board,myPosition,"DOWN")){
                                 outDirectionString = "ACT," + Direction.DOWN.toString();
                             }else{
@@ -182,7 +183,8 @@ public class YourSolver implements Solver<Board> {
                             outDirectionString = Direction.ACT.toString();
                         }
                     }
-                }else{
+                // цель слева
+                }else if(goal.getX() - myPosition.getX() < 0){
                     if(isMoveLeftRight(myPosition)) {
                         if (isPointEmpty(board, myPosition, "LEFT")) {
                             outDirectionString = Direction.LEFT.toString();
@@ -209,6 +211,16 @@ public class YourSolver implements Solver<Board> {
                         } else {
                             outDirectionString = Direction.ACT.toString();
                         }
+                    }
+                }else{
+                    if(isPointEmpty(board,myPosition,"DOWN")){
+                        outDirectionString = "ACT," + Direction.DOWN.toString();
+                    }else if(isPointEmpty(board,myPosition,"RIGHT")){
+                        outDirectionString = "ACT," + Direction.RIGHT.toString();
+                    }else if(isPointEmpty(board,myPosition,"LEFT")){
+                        outDirectionString = "ACT," + Direction.LEFT.toString();
+                    }else{
+                        outDirectionString = Direction.ACT.toString();
                     }
                 }
             }else if(isMoveUpDown(myPosition)){
@@ -281,6 +293,7 @@ public class YourSolver implements Solver<Board> {
                             outDirectionString = Direction.ACT.toString();
                         }
                     }
+                // цель слева
                 }else if(goal.getX() - myPosition.getX() < 0){
                     if(isMoveLeftRight(myPosition)) {
                         if (isPointEmpty(board, myPosition, "LEFT")) {
@@ -530,10 +543,10 @@ public class YourSolver implements Solver<Board> {
         }
         if(point.getX() <= 0
 //            || point.getX() >= sqrt(board.size())
-            || point.getX() >= 32 //board.size()
+            || point.getX() >= board.size() //32 //board.size()
             || point.getY() <= 0
 //            || point.getY() >= sqrt(board.size())
-            || point.getY() >= 32 //board.size()
+            || point.getY() >= board.size() //32 //board.size()
                 // TODO - проверить, возможно, при выполнении этого условия будет ставить бомбы перед перегородками
             || (point.getX() % 2 == 0 && point.getY() % 2 == 0)){
             isPointDanger = true;
@@ -575,6 +588,23 @@ public class YourSolver implements Solver<Board> {
             }
         }
 
+        // возвращаем poin на место
+        // TODO убрать движение point и потом возвращение на место
+        switch(direction){
+            case "UP":
+                point.move(point.getX(),point.getY()+1);
+                break;
+            case "DOWN":
+                point.move(point.getX(),point.getY()-1);
+                break;
+            case "LEFT":
+                point.move(point.getX()+1,point.getY());
+                break;
+            case "RIGHT":
+                point.move(point.getX()-1,point.getY());
+                break;
+            default:
+        }
         return !isPointDanger;
     }
 
