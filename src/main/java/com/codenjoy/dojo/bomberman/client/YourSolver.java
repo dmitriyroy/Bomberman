@@ -124,7 +124,19 @@ public class YourSolver implements Solver<Board> {
         // (goal.getY() - myPosition.getY()) == 0
         }else{
             // если можем двигаться по вертикали
-            if(myPosition.getX() % 2 == 1 ) {
+            if(isMoveLeftRight(myPosition)){
+                if((goal.getX() - myPosition.getX()) < 0){
+                    // идем влево
+                    outDirectionString = step(board, myPosition, "LEFT");
+                }else if((goal.getX() - myPosition.getX()) > 0){
+                    // идем вправо
+                    outDirectionString = step(board, myPosition, "RIGHT");
+                }else{
+                    // похоже сюда мы не попадем,
+                    // а если попадем, то значит, что мы родились взаперти
+                    outDirectionString = Direction.ACT.toString();
+                }
+            }else if(myPosition.getX() % 2 == 1 ) {
                 outDirectionString = step(board, myPosition, "UP");
             }else{
                 if((goal.getX() - myPosition.getX()) < 0){
@@ -140,72 +152,6 @@ public class YourSolver implements Solver<Board> {
                 }
             }
         }
-
-/*
-        // если Х нечетная, то я могу двигаться только по вертикали
-        if(isMoveUpDown(myPosition)){
-            if(lastDirection.toString().equals("UP")){
-                if(isPointEmpty(myPosition,"UP", board)) {
-                    newDirection = Direction.UP;
-                    lastDirection = newDirection;
-                    outDirectionString = newDirection.toString();
-                }else{
-                    lastDirection = newDirection.inverted();
-                    newDirection = Direction.ACT;
-//                    returnDirectionString = "ACT,"+newDirection.toString();
-                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
-
-                }
-            }else if(lastDirection.toString().equals("DOWN")){
-                if(isPointEmpty(myPosition,"DOWN", board)) {
-                    newDirection = Direction.DOWN;
-                    lastDirection = newDirection;
-                    outDirectionString = newDirection.toString();
-                }else {
-                    lastDirection = newDirection.inverted();
-                    newDirection = Direction.ACT;
-//                    returnDirectionString = "ACT,"+newDirection.toString();
-                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
-                }
-
-            }else{
-                newDirection = Direction.UP;
-                lastDirection = newDirection;
-                outDirectionString = newDirection.toString();
-            }
-
-            // если Х четная, то я могу двигаться только по горизонтали
-        }else{
-            if(lastDirection.toString().equals("LEFT")){
-                if(isPointEmpty(myPosition,"LEFT", board)) {
-                    newDirection = Direction.LEFT;
-                    lastDirection = newDirection;
-                    outDirectionString = newDirection.toString();
-                }else{
-                    lastDirection = newDirection.inverted();
-                    newDirection = Direction.ACT;
-//                    returnDirectionString = "ACT,"+newDirection.toString();
-                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
-                }
-            }else if(lastDirection.toString().equals("RIGHT")){
-                if(isPointEmpty(myPosition,"RIGHT", board)) {
-                    newDirection = Direction.RIGHT;
-                    lastDirection = newDirection;
-                    outDirectionString = newDirection.toString();
-                }else{
-                    lastDirection = newDirection.inverted();
-                    newDirection = Direction.ACT;
-//                    returnDirectionString = "ACT,"+newDirection.toString();
-                    outDirectionString = newDirection.toString() + "," + lastDirection.toString();
-                }
-
-            }else{
-                newDirection = Direction.RIGHT;
-                lastDirection = newDirection;
-                outDirectionString = newDirection.toString();
-            }
-        }
-*/
 
         return outDirectionString;
     }
