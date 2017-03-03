@@ -47,6 +47,7 @@ public class YourSolver implements Solver<Board> {
 
     private Dice dice;
     private Board board;
+    String lastDirection;
     private String returnDirectionString;
     private Collection<Point> destroyWalls;
     private Collection<Point> bombs;
@@ -56,7 +57,7 @@ public class YourSolver implements Solver<Board> {
     private Point goal;
     private boolean isNeedGoal = true;
     private int currentCountWithoutBomb = 0;
-    private int countStepToNewGoal = 10;
+    private int countStepToNewGoal = 7;
 
     public YourSolver(Dice dice) {
         this.dice = dice;
@@ -79,7 +80,9 @@ public class YourSolver implements Solver<Board> {
             isNeedGoal = false;
         }
         System.out.println("--->>>My Goal: " + goal.toString());
+        System.out.println("--->>>lastDirection: " + lastDirection);
         returnDirectionString = stepToGoal(myPosition,goal);
+        lastDirection = returnDirectionString.replaceAll("ACT","").replaceAll(",","").replaceAll(" ","");;
 
         return returnDirectionString;
     }
@@ -98,9 +101,11 @@ public class YourSolver implements Solver<Board> {
             e.printStackTrace();
         }
     }
+
     public boolean isMoveUpDown(Point myPosition){
         return myPosition.getX() % 2 == 1;
     }
+
     public boolean isMoveLeftRight(Point myPosition){
         return myPosition.getY() % 2 == 1;
     }
@@ -117,7 +122,13 @@ public class YourSolver implements Solver<Board> {
             currentCountWithoutBomb = 0;
         }else{
             if(isNearOtherGoal(myPosition)){
-                outDirectionString += (Direction.ACT.toString() + "," + outDirectionString);
+                // чтобы не залазил в тупик
+                if(isPointEmpty(myPosition,reversDirection(outDirectionString),true)){
+                    outDirectionString = (Direction.ACT.toString() + "," + reversDirection(lastDirection));
+                    System.out.println("REVERSE:   oldDir = " + lastDirection + "; newDir = " + outDirectionString);
+                }else{
+                    outDirectionString = (Direction.ACT.toString() + "," + outDirectionString);
+                }
             }
             currentCountWithoutBomb++;
         }
@@ -132,6 +143,25 @@ public class YourSolver implements Solver<Board> {
         outDirectionString = correctDirectionForBlast(myPosition, tmpOutDireсtion, outDirectionString);
 
         return outDirectionString;
+    }
+
+    private String reversDirection(String direction) {
+        switch(direction){
+            case "UP":
+                direction = Direction.DOWN.toString();
+                break;
+            case "RIGHT":
+                direction = Direction.LEFT.toString();
+                break;
+            case "DOWN":
+                direction = Direction.UP.toString();
+                break;
+            case "LEFT":
+                direction = Direction.RIGHT.toString();
+                break;
+            default:
+        }
+        return direction;
     }
 
     private boolean isNearOtherGoal(Point myPosition) {
